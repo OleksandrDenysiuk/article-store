@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout(~{::body}, 'article/list')}">
+<head>
+    <meta charset="UTF-8">
+    <title>List of user`s articles</title>
+</head>
+<body>
+<th:block th:replace="~{fragments/navbar :: navbar(${user})}">
+</th:block>
+<div class="content-width text-center mb-3">
+    <a href="/article/create" class="btn btn-primary">New Article</a>
+</div>
+<table class="table content-width">
+    <thead>
+    <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+        <th scope="col">Date</th>
+        <th scope="col">Likes</th>
+        <th scope="col">Read</th>
+        <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:object="${article}" th:each="article : ${user.articles}">
+        <td th:text="*{title}"></td>
+        <td><a th:href="'/user/' + *{author.id}"><span th:text="*{author.username}"></span></a></td>
+        <td th:text="*{getFormattedDate()}"></td>
+        <td th:text="*{likedUsers.size()}"></td>
+        <td><a th:href="'/article/read/' + *{id}">Read</a></td>
+        <td><a th:href="'/article/delete/' + *{id}">Delete</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

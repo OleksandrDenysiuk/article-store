@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout(~{::body}, 'index')}">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+</head>
+<body>
+<th:block th:replace="~{fragments/navbar :: navbar(${user})}">
+</th:block>
+<div class="card ml-auto mr-auto mb-3" style="max-width: 70em;" th:object="${article}" th:each="article : ${articles}">
+    <div class="row no-gutters">
+        <div class="col-md-5 img-cover">
+            <img class="img-cover" th:src="@{'/article/' + ${article.id} + '/image'}">
+        </div>
+        <div class="col-md-7 ">
+            <div class="card-body">
+                <h5 class="card-title" th:text="*{title}"></h5>
+                <p class="card-text recipe-list-text" th:text="*{content}"></p>
+                <div class="row">
+                    <div class="col">
+                        <p class="card-text"><small class="text-muted"
+                                                    th:text="*{getFormattedDate()} + ', by '"></small><a
+                                th:href="'/user/'+ *{author.id}"><small class="text-muted"
+                                                                        th:text="*{author.username}"></small></a></p>
+                    </div>
+                    <div class="col text-right">
+                        <a th:href="'/article/read/' + *{id}">Read more...</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

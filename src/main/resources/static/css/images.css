@@ -1,0 +1,9 @@
+.img-cover{
+    height: 18em;
+    width: 30em;
+    object-fit: cover;
+}
+
+.img-profile{
+    object-fit: cover;
+}

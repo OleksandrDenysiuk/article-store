@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout(~{::body}, 'loginForm')}">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Form</title>
+</head>
+<body>
+<form class="form-signing w-25 m-auto" method="post" action="/login">
+    <h1 class="h3 mb-3 font-weight-normal text-center">Please sign in</h1>
+    <div class="input-group-lg mb-3">
+        <label for="inputUserName" class="sr-only">User Name</label>
+        <input type="text" name="username" id="inputUserName" class="form-control"
+               th:classappend="${param.error} ? 'is-invalid'" placeholder="User Name" required autofocus>
+    </div>
+    <div class="input-group-lg mb-3">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control"
+               th:classappend="${param.error} ? 'is-invalid'" placeholder="Password" required>
+    </div>
+    <div class="alert alert-danger" role="alert" th:if="${param.error}">
+        Your username or password is invalid.
+    </div>
+    <div class="checkbox mt-2 mb-2">
+        <input type="checkbox" value="remember-me" id="rememberMe">
+        <label class="form-check-label" for="rememberMe">
+            Remember me
+        </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <p class="text-center mt-2 mb-2">You don`t have account? <a href="/registration">Sign up</a></p>
+    <p class="mb-3 text-muted text-center">&copy; 2020</p>
+</form>
+</body>
+</html>

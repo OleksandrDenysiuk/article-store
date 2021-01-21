@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout(~{::body}, 'user/index')}">
+<head>
+    <meta charset="UTF-8">
+    <title>User Index</title>
+</head>
+<body>
+<th:block th:replace="~{fragments/navbar :: navbar(${user})}">
+</th:block>
+<main class="content-width row" th:object="${userProfile}">
+    <div class="col-4">
+        <div class="text-center">
+            <h2 class="mb-3 mt-2" th:text="*{username}"></h2>
+            <img class="bd-placeholder-img rounded-circle mb-4 img-profile" width="200" height="200"
+                 th:src="@{'/user/' + __${userProfile.id}__ + '/image'}">
+        </div>
+        <ul class="list-group mt-3">
+            <li class="list-group-item disabled" aria-disabled="true">Activity</li>
+            <li class="list-group-item text-left">Likes on articles<span class="float-right"
+                                                                         th:text="*{getLikesAmount()}"></span></li>
+            <li class="list-group-item text-left">Posts<span class="float-right" th:text="*{articles.size()}"></span>
+            </li>
+            <li class="list-group-item text-left">Followers<span class="float-right"
+                                                                 th:text="*{subscribers.size()}"></span></li>
+        </ul>
+        <form th:if="${!userProfile.equals(user) and !userProfile.isSubscriber(user)}" method="get"
+              th:action="@{'/user/' + __${userProfile.id}__ + '/subscribe'}">
+            <button type="submit" class="btn btn-primary w-100 mt-4">Subscribe</button>
+        </form>
+
+        <form th:if="${!userProfile.equals(user) and userProfile.isSubscriber(user)}" method="get"
+              th:action="@{'/user/' + __${userProfile.id}__ + '/unsubscribe'}">
+            <button type="submit" class="btn btn-primary w-100 mt-4">Unsubscribe</button>
+        </form>
+    </div>
+    <div class="col mt-4">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
+                   role="tab"
+                   aria-controls="nav-profile" aria-selected="true">Profile</a>
+                <a class="nav-item nav-link" id="nav-articles-tab" data-toggle="tab" href="#nav-articles" role="tab"
+                   aria-controls="nav-articles" aria-selected="false">Articles</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="row">
+                    <div class="col">
+                        <label for="firstName" class="display-4">FirstName</label>
+                        <h2 th:text="*{firstName} ? *{firstName} : 'None'" id="firstName"></h2>
+                        <label for="lastName" class="display-4">LastName</label>
+                        <h2 th:text="*{lastName} ? *{lastName} : 'None'" id="lastName"></h2>
+                    </div>
+                    <div class="col">
+                        <label for="email" class="display-4">Email</label>
+                        <h2 th:text="*{email} ? *{email} : 'None'" id="email"></h2>
+                        <label for="address" class="display-4">Address</label>
+                        <h2 th:text="*{address} ? *{address} : 'None'" id="address"></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-articles" role="tabpanel" aria-labelledby="nav-articles-tab">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Likes</th>
+                        <th scope="col">Read</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:object="${article}" th:each="article : ${userProfile.articles}">
+                        <td th:text="*{title}"></td>
+                        <td th:text="*{getFormattedDate()}"></td>
+                        <td th:text="*{likedUsers.size()}"></td>
+                        <td><a th:href="'/article/read/' + *{id}">Read</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</main>
+</body>
+</html>

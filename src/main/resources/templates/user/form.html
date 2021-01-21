@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout(~{::body}, 'user/form')}">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<body>
+<th:block th:replace="~{fragments/navbar :: navbar(${userForm})}">
+</th:block>
+<main class="content-width row">
+    <div class="col-4">
+        <div class="text-center">
+            <h2 class="mb-3 mt-2" th:text="${userForm.username}"></h2>
+            <img class="bd-placeholder-img rounded-circle mb-4 img-profile" width="200" height="200" th:src="@{'/user/' + ${userForm.id} + '/image'}">
+            <div class="custom-file text-left">
+                <form method="post" th:action="@{'/user/image'}" enctype="multipart/form-data">
+                    <input type="file" name="image" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose image</label>
+                    <button type="submit" class="btn btn-primary mt-3 mb-3 w-100">Save image</button>
+                </form>
+            </div>
+        </div>
+        <ul class="list-group mt-3">
+            <li class="list-group-item disabled" aria-disabled="true">Activity</li>
+            <li class="list-group-item text-left">Likes<span class="float-right"
+                                                             th:text="${userForm.getLikesAmount()}"></span></li>
+            <li class="list-group-item text-left">Posts<span class="float-right"
+                                                             th:text="${userForm.articles.size()}"></span></li>
+            <li class="list-group-item text-left">Followers<span class="float-right"
+                                                                 th:text="${userForm.subscribers.size()}"></span></li>
+        </ul>
+    </div>
+    <div class="col mt-4">
+        <form th:object="${userForm}" method="post" action="/user/edit">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group ">
+                        <label for="inputUsername">User name</label>
+                        <input type="text" class="form-control"
+                               th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" id="inputUsername"
+                               th:field="*{username}">
+                        <div class="invalid-feedback">
+                            <th:block th:each="err : ${#fields.errors('username')}">
+                                <span th:text="${err}"></span>
+                            </th:block>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputFirstName">First name</label>
+                        <input type="text" class="form-control"
+                               th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'" id="inputFirstName"
+                               th:field="*{firstName}">
+                        <div class="invalid-feedback">
+                            <th:block th:each="err : ${#fields.errors('firstName')}">
+                                <span th:text="${err}"></span>
+                            </th:block>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputLastName">Last name</label>
+                        <input type="text" class="form-control"
+                               th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'" id="inputLastName"
+                               th:field="*{lastName}">
+                        <div class="invalid-feedback">
+                            <th:block th:each="err : ${#fields.errors('lastName')}">
+                                <span th:text="${err}"></span>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="inputAddress">Address</label>
+                        <input type="text" class="form-control"
+                               th:classappend="${#fields.hasErrors('address')} ? 'is-invalid'" id="inputAddress"
+                               th:field="*{address}">
+                        <div class="invalid-feedback">
+                            <th:block th:each="err : ${#fields.errors('address')}">
+                                <span th:text="${err}"></span>
+                            </th:block>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail">Email</label>
+                        <input type="text" class="form-control"
+                               th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" id="inputEmail"
+                               th:field="*{email}">
+                        <div class="invalid-feedback">
+                            <th:block th:each="err : ${#fields.errors('email')}">
+                                <span th:text="${err}"></span>
+                            </th:block>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Password</label>
+                        <input name="password" type="text"
+                               th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" class="form-control"
+                               id="inputPassword"
+                               placeholder="New password">
+                        <div class="invalid-feedback">
+                            <th:block th:each="err : ${#fields.errors('password')}">
+                                <span th:text="${err}"></span>
+                            </th:block>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPasswordConfirm">Confirm password</label>
+                        <input name="passwordConfirm" type="text" class="form-control"
+                               th:classappend="${#fields.hasErrors('passwordConfirm')} ? 'is-invalid'"
+                               id="inputPasswordConfirm"
+                               placeholder="Confirm new password">
+                        <div class="invalid-feedback">
+                            <th:block th:each="err : ${#fields.errors('passwordConfirm')}">
+                                <span th:text="${err}"></span>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

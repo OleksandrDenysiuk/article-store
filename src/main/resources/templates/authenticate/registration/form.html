@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::body}, 'registrationForm')}">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Form</title>
+</head>
+<body>
+<form th:object="${userForm}" class="form-signing w-25 m-auto" method="post" action="/registration">
+    <h1 class="h3 mb-3 font-weight-normal text-center">Please fill the fields</h1>
+    <div class="input-group-lg mb-3">
+        <label for="inputUserName" class="sr-only">User Name</label>
+        <input type="text" th:field="*{username}" id="inputUserName" class="form-control"
+               th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" placeholder="User Name">
+        <div class="invalid-feedback">
+            <th:block th:each="err : ${#fields.errors('username')}" >
+                <span th:text="${err}"></span>
+            </th:block>
+        </div>
+    </div>
+    <div class="input-group-lg mb-3">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" th:field="*{password}" id="inputPassword" class="form-control"
+               th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" placeholder="Password"
+               >
+        <div class="invalid-feedback">
+            <th:block th:each="err : ${#fields.errors('password')}" >
+                <span th:text="${err}"></span>
+            </th:block>
+        </div>
+    </div>
+    <div class="input-group-lg mb-3">
+        <label for="inputConfirmPassword" class="sr-only">Confirm password</label>
+        <input type="password" th:field="*{passwordConfirm}" id="inputConfirmPassword" class="form-control"
+               th:classappend="${#fields.hasErrors('passwordConfirm')} ? 'is-invalid'"
+               placeholder="Confirm password" >
+        <div class="invalid-feedback">
+            <th:block th:each="err : ${#fields.errors('passwordConfirm')}" >
+                <span th:text="${err}"></span>
+            </th:block>
+        </div>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+    <p class="text-center mt-2 mb-2">You already have account? <a href="/login">Sign in</a></p>
+    <p class="mb-3 text-muted text-center">&copy; 2020</p>
+</form>
+</body>
+</html>
